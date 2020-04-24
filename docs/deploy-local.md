@@ -56,7 +56,7 @@ In addition to the Kubernetes version requirement in [Deploying CF for K8s](depl
    ```
 
    - This should be run in a separate terminal as this will block.
-   - The `install-cf.sh` script will not exit successfully until this command is
+   - The `kapp deploy` command will not exit successfully until this command is
      run to allow minikube to create the LoadBalancer service.
 
 1. Follow the instructions in [Deploying CF for K8s](deploy.md).
@@ -64,10 +64,11 @@ In addition to the Kubernetes version requirement in [Deploying CF for K8s](depl
      configure DNS for the domain.
    - Include the [remove-resource-requirements.yml](../config-optional/remove-resource-requirements.yml)
      overlay file in the set of templates to be deployed. This can be achieved by
-     using the following command instead of running the install-cf.sh script:
+     using the following commands:
 
      ```bash
-     kapp deploy -a cf -f <(ytt -f config -f <cf_install_values_path> -f config-optional/remove-resource-requirements.yml)
+     $ ytt -f config -f config-optional/remove-resource-requirements.yml -f <cf_install_values_path> > /tmp/cf-for-k8s-rendered.yml
+     $ kapp deploy -a cf -f /tmp/cf-for-k8s-rendered.yml -y
      ```
 
 1. You will be able to target your CF CLI to point to the new CF instance
@@ -100,10 +101,11 @@ In addition to the Kubernetes version requirement in [Deploying CF for K8s](depl
    - Include the [remove-resource-requirements.yml](../config-optional/remove-resource-requirements.yml) and
      [remove-ingressgateway-service.yml](../config-optional/remove-ingressgateway-service.yml)
      overlay files in the set of templates to be deployed. This can be achieved by
-     using the following command instead of running the install-cf.sh script:
+     using the following commands:
 
      ```bash
-     kapp deploy -a cf -f <(ytt -f config -f <cf_install_values_path> -f config-optional/remove-resource-requirements.yml -f config-optional/remove-ingressgateway-service.yml)
+     $ ytt -f config -f config-optional/remove-resource-requirements.yml -f config-optional/remove-ingressgateway-service.yml -f <cf_install_values_path> > /tmp/cf-for-k8s-rendered.yml
+     $ kapp deploy -a cf -f /tmp/cf-for-k8s-rendered.yml -y
      ```
 
 1. Make sure you've installed a metrics-server.

@@ -17,7 +17,8 @@ The following scripts are designed to be executable in a CI system, as well as l
 - Install CF for K8s to your target K8s cluster.
 
   ```bash
-  $ ./bin/install-cf.sh <path-to-cf-install-values-yaml>
+  $ ytt -f config -f <path-to-cf-install-values-yaml> > /tmp/cf-for-k8s-rendered.yml
+  $ kapp deploy -a cf -f /tmp/cf-for-k8s-rendered.yml -y
   ```
 
 - Update the wildcard entry for the given domain with the correct load-balancer IP address (if you are using Google Cloud DNS).

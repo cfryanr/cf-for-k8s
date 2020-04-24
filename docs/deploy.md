@@ -145,7 +145,8 @@ This project is in it's early stages of development and hence there are features
 1. Run the install script with your "CF Install Values" file.
 
    ```console
-   ./bin/install-cf.sh /tmp/cf-values.yml
+   $ ytt -f config -f /tmp/cf-values.yml > /tmp/cf-for-k8s-rendered.yml
+   $ kapp deploy -a cf -f /tmp/cf-for-k8s-rendered.yml -y
    ```
 
    > cf-for-k8s uses [kapp](https://github.com/k14s/kapp) to manage it's lifecycle. `kapp` will first show you a list of resources it plans to install on the cluster and then will attempt to install those resources. `kapp` will not exit untill all resources are installed and their status is running.
