@@ -14,15 +14,17 @@ directories:
   - path: github.com/cloudfoundry/cf-k8s-networking
     git:
       url: https://github.com/cloudfoundry/cf-k8s-networking
-      ref: 5efa247a8f46953e9cb88f71b3ef47c2cdd39385
+      ref: c31566adbe6f3c3f110aee35e91d314965f99315
     includePaths:
+    - config/*
     - cfroutesync/crds/**/*
     - config/cfroutesync/**/*
+    - config/crd/**/*
     - config/istio-generated/**/*
   - path: github.com/cloudfoundry/capi-k8s-release
     git:
       url: https://github.com/cloudfoundry/capi-k8s-release
-      ref: 9e7bb239bc6c9ac8e633d29ad181832e90251a83
+      ref: a01701bac6c76957df1617ac1ec4f98697f1f111
     includePaths:
     - templates/**/*
     - values.yml
@@ -31,20 +33,25 @@ directories:
       slug: cloudfoundry/cf-k8s-logging
       tag: 0.1.0
       disableAutoChecksumValidation: true
+  - path: github.com/cloudfoundry/metric-proxy
+    git:
+      url: https://github.com/cloudfoundry/metric-proxy
+      ref: 614dbcd1a80512fb707f936067d8c498e3471682
+    includePaths:
+    - config/**/*
   - path: github.com/cloudfoundry/uaa
     git:
       url: https://github.com/cloudfoundry/uaa
-      ref: 1c19ffc2697441824d2e98e31210a82e1fbc0ac1 # v74.15.0
+      ref: v74.17.0
     includePaths:
     - k8s/templates/**/*
-    - k8s/values/default-values.yml
   - path: github.com/pivotal/kpack
     githubRelease:
       slug: pivotal/kpack
-      tag: v0.0.6
+      tag: v0.0.8
       disableAutoChecksumValidation: true
     includePaths:
-    - release-0.0.6.yaml
+    - release-0.0.8.yaml
 # the components in this section below are handled by their corresponding build scripts
 # the manual param tells vendir to not override/touch the contents of these config/_ytt_lib/<eirini|minio|postgres> directories
   - path: eirini
@@ -65,7 +72,7 @@ directories:
   - path: .
     git:
       url: https://github.com/helm/charts
-      ref: 21546e62d205fe6d197a8f920532d9b78b67a71f # version: 5.0.6
+      ref: f8d1e522df1e4841e7a4a1a46d59bce9a9bad904 # version: 5.0.22
     includePaths:
     - stable/minio/**/*
 
@@ -74,7 +81,7 @@ directories:
   - path: .
     githubRelease:
       slug: cloudfoundry-incubator/eirini-release
-      tag: v1.4.0
+      tag: v1.5.0
       disableAutoChecksumValidation: true
       unpackArchive:
         path: eirini.tgz
@@ -83,6 +90,6 @@ directories:
   - path: .
     git:
       url: https://github.com/bitnami/charts
-      ref: a4df45b81a9d0a7862f043765bc13bc875bdad96 # version: 8.6.4
+      ref: 1765929fa8cf37819309ff975ebf0a8dfcf7824d # version: 8.9.0
     includePaths:
     - bitnami/postgresql/**/*

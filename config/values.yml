@@ -21,10 +21,13 @@ cf_db:
   admin_password: ""
   enabled: true
 
+#! reserved static ip for istio LoadBalancer
+istio_static_ip: ""
+
 images:
   capi: ""
   nginx: ""
-  cfroutesync: "gcr.io/cf-networking-images/cf-k8s-networking/cfroutesync@sha256:758abd1b6144596cef74ad4805bc7e1a6055142cab5719f0d42d0321a14a190d"
+  cfroutesync: ""
 
 system_certificate:
   #! Base64-encoded certificate for the wildcard
@@ -135,10 +138,19 @@ log_cache_client:
   id: "" #! comment
   secret: "" #! comment
 
-kpack:
-  registry:
-    hostname: ""
-    repository: ""
-    username: ""
-    password: ""
-    encoded_secret_password: ""
+app_registry:
+  hostname: ""
+  repository: ""
+  username: ""
+  password: ""
+
+metric_proxy:
+  ca:
+    secret_name: "metric-proxy-ca"
+    crt: ""
+    key: ""
+  cert:
+    secret_name: "metric-proxy-cert"
+    crt: ""
+    key: ""
+
