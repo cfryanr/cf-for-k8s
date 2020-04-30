@@ -1,0 +1,20 @@
+#!/bin/bash
+set -eux
+
+# ENV
+: "${REPO_DIR:?}"
+
+cd "$REPO_DIR"
+echo "Generating values file."
+values_file=./values.yml
+./hack/generate-values.sh --cf-domain fake.domain > ${values_file}
+
+echo "Verifying that each file in config-option can template correctly with" \
+  "\`ytt -f config -f <values_file> -f <config_opt_file>\`"
+
+for config_opt_file in $(find config-optional -name "*.yml"); do
+  echo "Testing ${config_opt_file}.."
+  ytt -f config -f ${values_file} -f ${config_opt_file} > /dev/null
+done
+
+echo "Successfully verified all config-optional files."

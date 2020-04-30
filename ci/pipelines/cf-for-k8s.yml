@@ -2,6 +2,7 @@
 groups:
 - name: validation-checks
   jobs:
+  - unit-test-config-optional-files-dev
   - test-vendir-sync-on-cf-for-k8s
   - validate-cf-for-k8s
   - release-validation-pool-manual
@@ -46,6 +47,16 @@ resources:
   icon: github-box
   source:
     branch: develop
+    uri: git@github.com:cloudfoundry/cf-for-k8s
+    private_key: ((cf_for_k8s_readonly_deploy_key.private_key))
+    paths:
+      - ci/**
+
+- name: cf-for-k8s-config-opt-ytt-tests
+  type: git
+  icon: github-box
+  source:
+    branch: jp/config-opt-ytt-tests
     uri: git@github.com:cloudfoundry/cf-for-k8s
     private_key: ((cf_for_k8s_readonly_deploy_key.private_key))
     paths:
@@ -225,11 +236,26 @@ test-runner-config: &common-test-config
       repository: relintdockerhubpushbot/cf-test-runner
 
 jobs:
+- name: unit-test-config-optional-files-dev
+  public: true
+  plan:
+  - in_parallel:
+    - get: cf-for-k8s-develop
+      trigger: true
+    - get: cf-for-k8s-develop-ci
+
+  - task: unit-test-config-optional-files
+    file: cf-for-k8s-develop-ci/ci/tasks/unit-test-config-optional-files/task.yml
+    input_mapping:
+      cf-for-k8s-ci: cf-for-k8s-config-opt-ytt-tests
+      cf-for-k8s-repo: cf-for-k8s-develop
+    params:
+      REPO_DIR: cf-for-k8s-repo
+
 - name: test-vendir-sync-on-cf-for-k8s
   public: true
   plan:
   - in_parallel:
-    - get: runtime-ci
     - get: cf-for-k8s-develop
       trigger: true
     - get: cf-for-k8s-develop-ci
