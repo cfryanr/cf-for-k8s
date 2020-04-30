@@ -242,10 +242,10 @@ jobs:
   - in_parallel:
     - get: cf-for-k8s-develop
       trigger: true
-    - get: cf-for-k8s-develop-ci
+    - get: cf-for-k8s-config-opt-ytt-tests
 
   - task: unit-test-config-optional-files
-    file: cf-for-k8s-develop-ci/ci/tasks/unit-test-config-optional-files/task.yml
+    file: cf-for-k8s-config-opt-ytt-tests/ci/tasks/unit-test-config-optional-files/task.yml
     input_mapping:
       cf-for-k8s-ci: cf-for-k8s-config-opt-ytt-tests
       cf-for-k8s-repo: cf-for-k8s-develop
